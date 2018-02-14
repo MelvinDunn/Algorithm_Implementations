@@ -1,4 +1,4 @@
-##Algorithm Implementations
+## Algorithm Implementations
 
 Reading things doesn't really seem to help to learn. I actually need to code this or do it by hand to actually learn it. This is probably why I enjoy doing what I do.
 
