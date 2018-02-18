@@ -24,7 +24,7 @@ def accuracy(y_hat, y):
 if __name__ == "__main__":
     data = (load_iris()["data"])
     target = (load_iris()["target"])
-    y_hat = (knn(data,target, k=1))
-    y_hat2 = (knn(data,target, k=20))
+    y_hat = (knn_classifier(data,target, k=1))
+    y_hat2 = (knn_classifier(data,target, k=20))
     print(accuracy(y_hat, target))
     print(accuracy(y_hat2, target))    
