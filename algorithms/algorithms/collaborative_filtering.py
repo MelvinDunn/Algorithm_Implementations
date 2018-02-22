@@ -4,7 +4,11 @@ import itertools
 
 def item_to_item_similarity(user_item):
 	#cosine similarity between items that have been rated between users.
+	
+	#get the different combinations of possible ratings.
 	combos = (list(itertools.combinations(list(user_item.columns), 2)))
+
+	#make an empty dataframe for them.
 	item_to_item_df = pd.DataFrame({}, index = user_item.columns, columns = user_item.columns)
 	for i in combos:
 		index_1 = (~pd.isnull(user_item[i[0]]))
@@ -37,5 +41,7 @@ if __name__ == "__main__":
 			"user": ["u1", "u1", "u2","u2","u3","u3","u3","u4","u4"],
 			"item": ["m1","m3","m1","m2","m1","m2","m3","m2","m3"],
 			"rating": [2,3,5,2,3,3,1,2,2]})
+	#create a user-item crosstable.
 	user_item = (pd.crosstab(index=data["user"],columns=data["item"],values=data["rating"], aggfunc="mean"))
+	#return the ratings
 	print(predict_missing_ratings(user_item))
