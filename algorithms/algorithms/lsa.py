@@ -44,4 +44,4 @@ if __name__ == "__main__":
 		["We like to move it"]
 	]
 	document_term_matrix = (np.asarray(document_term_matrix(documents)))
-	print("LSI value for {} components is: \n {}".format(n_components, LSI(document_term_matrix, k=n_components)))
+	print("LSI transformed matrix for {} components is: \n {}".format(n_components, LSI(document_term_matrix, k=n_components)))
