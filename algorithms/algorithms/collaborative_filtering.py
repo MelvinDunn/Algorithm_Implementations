@@ -43,5 +43,6 @@ if __name__ == "__main__":
 			"rating": [2,3,5,2,3,3,1,2,2]})
 	#create a user-item crosstable.
 	user_item = (pd.crosstab(index=data["user"],columns=data["item"],values=data["rating"], aggfunc="mean"))
-	#return the ratings
+	#return the ratings, the way I'm filling in the missing values isn't the proper way.
+	#As a change I would have to flatten the matrix and iterate through the NAs.
 	print(predict_missing_ratings(user_item))
