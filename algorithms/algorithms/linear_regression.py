@@ -13,6 +13,7 @@ def linear_regression_main(data, y, intercept=True, iteration=100, alpha=0.001):
         pass
     rss_list = []
     #coeffs
+    # be careful because this normal equation / moore penrose is 0(n^3)
     coeffs = np.matmul(np.matmul(np.linalg.inv(np.matmul(data.T, data)), data.T), y)
     #gradient descent iteration through each coefficient.
     for i in range(iteration):
