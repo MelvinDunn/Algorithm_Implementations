@@ -22,6 +22,8 @@ def PCA(data, n_components):
 	Sigma_if_it_were = (calculate_covariance(subtract_by_mean(data)))
 	U,S,V = np.linalg.svd(Sigma_if_it_were)
 	min_list = []
+	#this is just to get an accurate k
+	#there is a PCA reconstruction in the other file, which is anothber mothed for choosing k
 	for i in range(data.shape[1]-1):
 		SS = 1 - (np.sum(S[:i]) /  np.sum(S))
 		min_list.append(SS)
