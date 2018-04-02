@@ -25,6 +25,7 @@ def PCA(data, n_components):
 	#this is just to get an accurate k
 	#there is a PCA reconstruction in the other file, which is anothber mothed for choosing k
 	for i in range(data.shape[1]-1):
+        #percentage of variance retained from reducing dimensions.
 		SS = 1 - (np.sum(S[:i]) /  np.sum(S))
 		min_list.append(SS)
 	print((min_list))
