@@ -8,6 +8,8 @@ Query Expansion with Locally-Trained Word Embeddings
 This implementation will assume all documents in
 the corpus come from the same domain / local embedding.
 
+this assumes the number of terms I would add to my query is k = 1
+
 """
 import gensim
 import numpy as np
@@ -66,7 +68,7 @@ def kullback_leibler_divergence(pq, pd):
 	equation 3 of the paper.
 	added the softmax
 	"""
-	return softmax(pq * np.log(pq / pd))
+	return np.sum(np.nan_to_num(pq * np.log(pq / pd)), axis=0)
 
 
 def softmax(x):
@@ -121,24 +123,29 @@ def word2vec_main(fname):
 	model = gensim.models.Word2Vec(
 	        documents,
 	        size=300,
-	        window=2,
+	        window=1,
 	        min_count=1,
 	        workers=4,
-	        iter=10)
+	        iter=3)
 
 	model.train(documents, total_examples=len(documents), epochs=3)
 
 	return model
 
 if __name__ == "__main__":
+	#this small dataset doesn't yield great results on the word_vectors being used as input.
 	word_vectors = (query_expansion_main('/data/ohsumed.txt'))
-	query_vector = (word_vectors.wv.get_vector("hiv"))
+	query_vector = (word_vectors.wv.get_vector("anaesthetic"))
 	whole_vector = (word_vectors.wv.syn0)
-	print(word_vectors.wv.most_similar("hiv"))
+	print(word_vectors.wv.most_similar("anaesthetic"))
 	expansion_of_term_weights_UUtq = np.nan_to_num(np.matmul(whole_vector.T, whole_vector).dot(query_vector.reshape(query_vector.shape[0],1)))
-	most_similar_index = (np.argmin(kullback_leibler_divergence(expansion_of_term_weights_UUtq, whole_vector.T)))
+	divergence = ((kullback_leibler_divergence(expansion_of_term_weights_UUtq, whole_vector.T)))
+	print(divergence)
+	most_similar_index = np.argmin(divergence)
+	print(most_similar_index)
 	print(word_vectors.wv.index2word[most_similar_index])
 	most_similar = whole_vector[most_similar_index]
 	pq_plus_w = (interpolated_language_model(most_similar))
 	most_similar_index = (np.argmin(kullback_leibler_divergence(pq_plus_w, whole_vector)))
+	#the word I would presumably use.
 	print(word_vectors.wv.index2word[most_similar_index])
